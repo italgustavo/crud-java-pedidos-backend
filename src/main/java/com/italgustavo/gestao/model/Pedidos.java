@@ -30,6 +30,9 @@ public class Pedidos {
     }
 
     public Pedidos(String title, String description, boolean b) {
+        this.title = title;
+        this.description = description;
+        this.published = b;
     }
 
     public long getId() {

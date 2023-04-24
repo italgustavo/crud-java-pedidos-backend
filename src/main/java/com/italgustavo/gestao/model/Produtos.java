@@ -18,8 +18,16 @@ public class Produtos {
     @Column(name = "price")
     private Float price;
 
-    public Produtos(String nomeProduto, String description, Float price) {
+    public Produtos(){
+
     }
+
+    public Produtos(String name, String description, Float price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
 
     public long getId() {
         return id;
