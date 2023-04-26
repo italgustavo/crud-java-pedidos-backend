@@ -54,7 +54,7 @@ public class PedidosControllers {
     public ResponseEntity<Pedidos> createPedidos(@RequestBody Pedidos pedidos) {
         try {
             Pedidos _pedidos = pedidosRepository
-                    .save(new Pedidos(pedidos.getTitle(), pedidos.getDescription(), false));
+                    .save(new Pedidos(pedidos.getTitle(), pedidos.getDescription(), false, pedidos.getProdutosPedidos()));
             return new ResponseEntity<>(_pedidos, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,6 +70,7 @@ public class PedidosControllers {
             _pedidos.setTitle(pedidos.getTitle());
             _pedidos.setDescription(pedidos.getDescription());
             _pedidos.setPublished(pedidos.isPublished());
+            _pedidos.setProdutosPedidos(pedidos.getProdutosPedidos());
             return new ResponseEntity<>(pedidosRepository.save(_pedidos), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -100,12 +101,12 @@ public class PedidosControllers {
     @GetMapping("/pedidos/published")
     public ResponseEntity<List<Pedidos>> findByPublished() {
         try {
-            List<Pedidos> tutorials = pedidosRepository.findByPublished(true);
+            List<Pedidos> pedidos = pedidosRepository.findByPublished(true);
 
-            if (tutorials.isEmpty()) {
+            if (pedidos.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(tutorials, HttpStatus.OK);
+            return new ResponseEntity<>(pedidos, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

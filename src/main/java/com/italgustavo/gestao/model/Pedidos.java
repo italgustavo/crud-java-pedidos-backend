@@ -1,6 +1,8 @@
 package com.italgustavo.gestao.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
@@ -17,6 +19,9 @@ public class Pedidos {
 
     @Column(name = "published")
     private boolean published;
+    @OneToMany
+    @JoinColumn(name = "id_produtos_pedidos", foreignKey = @ForeignKey( name = "fk_produtos" ) )
+    private List<Produtos> produtosPedidos = new ArrayList<>();
 
     public Pedidos() {
 
@@ -29,10 +34,11 @@ public class Pedidos {
         this.published = published;
     }
 
-    public Pedidos(String title, String description, boolean b) {
+    public Pedidos(String title, String description, boolean b, List<Produtos> produtos) {
         this.title = title;
         this.description = description;
         this.published = b;
+        this.produtosPedidos = produtos;
     }
 
     public long getId() {
@@ -67,6 +73,14 @@ public class Pedidos {
         this.published = published;
     }
 
+    public List<Produtos> getProdutosPedidos() {
+        return produtosPedidos;
+    }
+
+    public void setProdutosPedidos(List<Produtos> produtosPedidos) {
+        this.produtosPedidos = produtosPedidos;
+    }
+
     @Override
     public String toString() {
         return "Pedidos{" +
@@ -74,6 +88,7 @@ public class Pedidos {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", published=" + published +
+                ", produtosPedidos=" + produtosPedidos +
                 '}';
     }
 }
